@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 
 
 const signupController = async(req,res)=>{
+    console.log("howa hit")
     try{
         const {name,email,password}=req.body;
 
@@ -55,6 +56,7 @@ const loginController =async(req,res)=>{
     const userExist = await userModel.findOne({email:email})
 
     if(!userExist){
+        console.log("usr nahi hae")
         return res.status(400).json({
             data:null,
             status:false,
