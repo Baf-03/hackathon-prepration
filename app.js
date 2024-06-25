@@ -1,36 +1,31 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import router from "./router/index.js";
-
 import dotenv from 'dotenv';
 dotenv.config();
-
+import express from "express";
+import mongoose from "mongoose";
+import router from "./router/index.js";
+import cors from "cors"
 const app = express();
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 5000;
 
-const corsOptions = {
-    origin: 'http://localhost:5173', // Allow your local development origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-};
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.use(cors(corsOptions));
 
-const URI = `mongodb+srv://bilal:bilal@cluster0.ncawirq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = "mongodb+srv://bilal:bilal@cluster0.ncawirq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.on("connected", () => console.log("DB Connected"));
-mongoose.connection.on("error", (err) => console.log("Error connecting to DB: " + err));
+mongoose.connect(uri)
+    .then(() => console.log("mongodb connected!"))
+    .catch((error) => console.log("err mongodb", error.message))
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(route,cors());
+app.use(cors());
 app.use(router);
 
-app.get("/", (req, res) => {
-    res.json("Server is running");
-});
+app.get("/",(req,res)=>{
+    res.json("Running");
+})
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+app.listen(PORT,() =>{
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`http://localhost:${PORT}`);
 });
