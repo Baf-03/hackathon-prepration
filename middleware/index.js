@@ -13,11 +13,14 @@ export const verifyTokenMiddleware = (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, "todoB@f123");
-    req.userEmail = decoded.email;
-    next();
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
 
+    // Save the user's email in the request object
+    req.userEmail = decoded.email;
+    
+    next();
   } catch (err) {
+    console.log(err)
     res.status(401).json("unAuth User");
   }
 };
