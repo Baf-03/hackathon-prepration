@@ -8,6 +8,7 @@ const signupController = async(req,res)=>{
         const {name,email,password}=req.body;
 
         if(!name || !email || !password){
+            console.log(email,name,password)
             return res.status(400).json({
                 data:null,
                 status:false,
@@ -18,6 +19,7 @@ const signupController = async(req,res)=>{
         const userExist = await userModel.find({email:email});
 
         if(userExist.length){
+            console.log(userExist)
             return res.status(400).json({
                 data:null,
                 message:"email already exist",
