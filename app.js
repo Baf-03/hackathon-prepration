@@ -19,7 +19,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch((error) => console.log("err mongodb", error.message));
 
 // Router middleware
-app.use('/api', router); // Ensure the routes are correctly prefixed
+app.use(router); // Ensure the routes are correctly prefixed
 
 app.get("/", (req, res) => {
     res.json("Running");
