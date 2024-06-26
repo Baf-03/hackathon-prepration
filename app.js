@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware to enable CORS
 app.use(cors());
 
-const uri = "mongodb+srv://bilal:bilal@cluster0.ncawirq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://bilal:bilal@cluster0.ng610yy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("MongoDB connected!"))
