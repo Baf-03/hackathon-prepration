@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
+import userModel from "../models/userSchema.js";
+import otpModel from "../models/otpSchema.js";
 
-export const verifyTokenMiddleware = (req, res, next) => {
+export const verifyTokenMiddleware = async(req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -14,9 +16,16 @@ export const verifyTokenMiddleware = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-
-    // Save the user's email in the request object
-    req.userEmail = decoded.email;
+    const isOtpVerified = await otpModel.findOne({userId:decoded?.email});
+    console.log(isOtpVerified?. verified)
+    if(!isOtpVerified?.verified){
+      return res.json({
+        message: "user_unverified",
+        status: false,
+        email:decoded.email
+      });
+    }
+    req.userEmail = decoded?.email;
     
     next();
   } catch (err) {
