@@ -14,12 +14,12 @@ const otpSchema = new mongoose.Schema({
   verified:{
     type:Boolean,
     default:false
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    expires: 300,
-  }, // 5 minutes
+  }
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now,
+  //   expires: 300,
+  // }, // 5 minutes
 });
 
 const otpModel = mongoose.model("otp", otpSchema);
