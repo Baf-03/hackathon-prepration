@@ -76,7 +76,12 @@ const signupController = async (req, res) => {
       });
     }
 
-    const userExist = await userModel.findOne({ email: email });
+    const userExist = await userModel.findOne({
+      $or: [
+        { email: email },
+        { cnic: cnic }
+      ]
+    });
 
     if (userExist) {
       console.log(userExist);
@@ -154,7 +159,12 @@ const loginController = async (req, res) => {
     });
   }
 
-  const userExist = await userModel.findOne({ email: email });
+  const userExist = await userModel.findOne({
+    $or: [
+      { email: email },
+      { cnic: email }
+    ]
+  });
 
   if (!userExist) {
     console.log("User does not exist");
