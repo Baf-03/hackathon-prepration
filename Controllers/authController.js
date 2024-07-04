@@ -24,7 +24,7 @@ export const otpProcess = async (userId, email) => {
 
   return transporter.sendMail({
     from: process.env.EMAIL,
-    to: "bilalahmedfarooqi03@gmail.com",
+    to: email,
     subject: "Email Verification",
     html: EmailVerificationHtml(generatedOtp),
   });
@@ -183,7 +183,7 @@ const loginController = async (req, res) => {
     });
   }
 
-  const token = jwt.sign({ email }, process.env.TOKEN_KEY, {
+  const token = jwt.sign({email:userExist.email}, process.env.TOKEN_KEY, {
     expiresIn: '5hr',
   });
 
