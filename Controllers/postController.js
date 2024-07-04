@@ -10,6 +10,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET_KEY,
 });
 const unlinkAsync = promisify(fs.unlink);
+
 export const UploadImage = async (req, res) => {
     const urls = [];
     console.log("files", req.files);
