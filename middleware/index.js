@@ -6,7 +6,7 @@ export const verifyTokenMiddleware = async(req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-
+    console.log(token)
     if (!token) {
       console.log("token not found");
       return res.status(400).json({
@@ -16,20 +16,21 @@ export const verifyTokenMiddleware = async(req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-    const isOtpVerified = await otpModel.findOne({userId:decoded?.email});
-    console.log(isOtpVerified?. verified)
-    if(!isOtpVerified?.verified){
+    const isOtpVerified = await otpModel.findOne({userId: decoded?.email});
+
+    if (!isOtpVerified?.verified) {
+      console.log("mae chala xd")
       return res.json({
         message: "user_unverified",
         status: false,
-        email:decoded.email
+        email: decoded.email
       });
     }
+
     req.userEmail = decoded?.email;
-    
     next();
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(401).json("unAuth User");
   }
 };

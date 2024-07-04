@@ -32,9 +32,12 @@ export const otpProcess = async (userId, email) => {
 
 
 export const otpProcessApi = async (req,res) => {
+  console.log("mae chala");
+
   const email =req.body?.id
   console.log("email",req.body)
   console.log("hit howa")
+
   await otpModel.findOneAndDelete({userId:email});
   const generatedOtp = crypto.randomInt(100000, 999999).toString();
   console.log("chala")
@@ -61,9 +64,10 @@ export const otpProcessApi = async (req,res) => {
 const signupController = async (req, res) => {
   console.log("Signup hit");
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password,cnic} = req.body;
 
-    if (!name || !email || !password) {
+    console.log("hi",name, email, password,cnic)
+    if (!name || !email || !password || !cnic) {
       console.log(email, name, password);
       return res.status(400).json({
         data: null,
@@ -83,7 +87,7 @@ const signupController = async (req, res) => {
       });
     }
 
-    const userCreated = await userModel.create({ name, email, password });
+    const userCreated = await userModel.create({ name, email, password,cnic });
     console.log(userCreated._id);
 
     
@@ -103,7 +107,7 @@ const signupController = async (req, res) => {
 
 const otpVerify = async (req, res) => {
   const { id, otp } = req.body;
-  console.log("hello",id,otp)
+  console.log("hello",id,otp);
   if (!id || !otp) {
     return res.status(400).json("req fields are missing");
   }
@@ -179,6 +183,8 @@ const loginController = async (req, res) => {
     status: true
   });
 };
+
+
 
 const verifyController = async (req, res) => {
   res.json("user verified")
